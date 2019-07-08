@@ -1,0 +1,314 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0e2d801d270de2eaaa197672aa6162, type: 3}
+  m_Name: DataShopItem
+  m_EditorClassIdentifier: 
+  backgraund_Purchase: {r: 0.03260728, g: 0.32156864, b: 0.003921565, a: 1}
+  backgraund_NonPurchase: {r: 0.25130865, g: 0.18422927, b: 0.2830189, a: 1}
+  backgraund_SelectedBall: {r: 0.3584906, g: 0.2176586, b: 0.043965824, a: 1}
+  gamsItemPrefab: {fileID: 2588933349401369179, guid: 98231aa24178b15be9a740499461efc4,
+    type: 3}
+  itemGams:
+  - name: gems_3
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 3
+    costItem: 0.5
+  - name: gems_8
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 8
+    costItem: 1
+  - name: gems_45
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 45
+    costItem: 5
+  - name: gems_100
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 100
+    costItem: 10
+  - name: gems_300
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 300
+    costItem: 25
+  - name: gems_750
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 750
+    costItem: 50
+  - name: gems_1500
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem: 1500
+    costItem: 100
+  ballItemPrefab: {fileID: 2128970769911758249, guid: 25d25484936c11ce582b7d214bebbc39,
+    type: 3}
+  itemBalls:
+  - name: BALL_0
+    iconItem: {fileID: 21300000, guid: 3841cfa6c7cb135cb8b26c9861a62768, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 1
+    ballType: 1
+  - name: BALL_1
+    iconItem: {fileID: 21300000, guid: 75e20ac03e1aa344c944c1cf353ab29e, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_2
+    iconItem: {fileID: 21300000, guid: 7baf4f4e37a605571acf27b676bf7ffd, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_3
+    iconItem: {fileID: 21300000, guid: c63859c9f71606a66a90d0693c4f146f, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_4
+    iconItem: {fileID: 21300000, guid: 4878ff6cdbd6dffad9103415ad00d58a, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_5
+    iconItem: {fileID: 21300000, guid: 31a75cb1f9a07f0baabf8291b5ccf052, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_6
+    iconItem: {fileID: 21300000, guid: 9f3c936210d465ba2a73d3ed7f8fb8d7, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_7
+    iconItem: {fileID: 21300000, guid: 5e3e4922c9c65fbbabd29188f59a719e, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_8
+    iconItem: {fileID: 21300000, guid: b0f3a2513cc618d12b53e2348d448181, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_9
+    iconItem: {fileID: 21300000, guid: 7b2fe8c519a6f7a49874cc87cc2f822a, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_10
+    iconItem: {fileID: 21300000, guid: 3d75bfafe1a1943eab14f735b77f0ab3, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 0
+    isBuyed: 0
+    ballType: 0
+  - name: BALL_11
+    iconItem: {fileID: 21300000, guid: 2c8d6a751904241d6bd0265a2ca6e63c, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_12
+    iconItem: {fileID: 21300000, guid: 5aadf62a1b04ae1678cf254d5f4aad46, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_13
+    iconItem: {fileID: 21300000, guid: 4bad5459853b26c819101dbbc1a1fb99, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_14
+    iconItem: {fileID: 21300000, guid: 354f91c60c4e89c74926dad3fa964a96, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_15
+    iconItem: {fileID: 21300000, guid: 4a3bcbac7d0f9b176b18257226d71fd6, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_16
+    iconItem: {fileID: 21300000, guid: be2cff24b2dbe7cf3a8c69f4e56ba69a, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_17
+    iconItem: {fileID: 21300000, guid: 201de351b61a0ac1c81aa85e5232ea91, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_18
+    iconItem: {fileID: 21300000, guid: 477b819842f628832b7986221afb337c, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_19
+    iconItem: {fileID: 21300000, guid: 4231cdb8436bc00a0807fb6c1411b2c9, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_20
+    iconItem: {fileID: 21300000, guid: 3d47507f111cd723eac8b7f09153e1bc, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 300
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_21
+    iconItem: {fileID: 21300000, guid: 13d3af6d9b2430c36b55a39067491df9, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_22
+    iconItem: {fileID: 21300000, guid: 3d5354b0e7636f76b86a2fbfbee9620f, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_23
+    iconItem: {fileID: 21300000, guid: 196cfe2d47f5c740e8764da69fd71cea, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_24
+    iconItem: {fileID: 21300000, guid: efdf6b2032587d4e0a666fd22d8fd788, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_25
+    iconItem: {fileID: 21300000, guid: e2db19d3229d73562847e6bf518b2bc9, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_26
+    iconItem: {fileID: 21300000, guid: 06e1a7c240c2f57f98e9f1f7fa3f4667, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_27
+    iconItem: {fileID: 21300000, guid: 3988b8a7f0bbf2047a230050509fa008, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_28
+    iconItem: {fileID: 21300000, guid: 78633e6a796192b9f9a98bf9c7a9da84, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_29
+    iconItem: {fileID: 21300000, guid: 0eac547f137eb042d8bea3f7c60e06b5, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_30
+    iconItem: {fileID: 21300000, guid: a233ba2812e72e9f3948c215add631d0, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 500
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_31
+    iconItem: {fileID: 21300000, guid: 3cbcc62ff6add44568bd0b3c6447d2ee, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 1000
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_32
+    iconItem: {fileID: 21300000, guid: 80125c8932ea5febeafcdb56bc59cd67, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 1000
+    isBuyed: 0
+    ballType: 1
+  - name: BALL_33
+    iconItem: {fileID: 21300000, guid: 97730a7c81d1734df8c787f56e8c89dc, type: 3}
+    iconMoney: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    costItem: 1000
+    isBuyed: 0
+    ballType: 1
+  packItemPrefab: {fileID: 3427911260514302792, guid: b20535f8c230b688491473dc7f38b396,
+    type: 3}
+  itemPacks:
+  - name: pack_1
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 1
+    countItem_1: 1
+    countItem_2: 1
+    costItem: 0.5
+  - name: pack_2
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 2
+    countItem_1: 2
+    countItem_2: 3
+    costItem: 1
+  - name: pack_3
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 12
+    countItem_1: 12
+    countItem_2: 20
+    costItem: 5
+  - name: pack_4
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 25
+    countItem_1: 25
+    countItem_2: 50
+    costItem: 10
+  - name: pack_5
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 100
+    countItem_1: 100
+    countItem_2: 175
+    costItem: 25
+  - name: pack_6
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 250
+    countItem_1: 250
+    countItem_2: 400
+    costItem: 50
+  - name: pack_7
+    icon_0: {fileID: 21300000, guid: e5c5b851511e14aa7a1c6c2bf989f107, type: 3}
+    icon_1: {fileID: 21300000, guid: b3d10f62b5267487a8edf572c9cc4cec, type: 3}
+    icon_2: {fileID: 21300028, guid: 455da083a7c45cf4a868cca91591115d, type: 3}
+    countItem_0: 750
+    countItem_1: 750
+    countItem_2: 1000
+    costItem: 100

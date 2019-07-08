@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50ed8a4f036e40b0b43414050ec1221, type: 3}
+  m_Name: DataGameConfig
+  m_EditorClassIdentifier: 
+  isFirstStartGame: 0
+  isTestMP: 0
+  timeDeleyBallCreate: 1
+  countLevels: 3000
+  openLevels: 1
+  maxPointReward: 100
+  everydayReward: 3
+  maxScaleReward: 15
+  videoReward: 3
+  costAction: 3
+  costContinueGame: 3

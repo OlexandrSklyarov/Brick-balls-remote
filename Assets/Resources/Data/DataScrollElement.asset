@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80abc20b43ddc4640a99f1905d7d940e, type: 3}
+  m_Name: DataScrollElement
+  m_EditorClassIdentifier: 
+  closeImage: {fileID: 21300000, guid: 997062ba8fb5247649a75899d2c41139, type: 3}
+  blackStarImage: {fileID: 21300000, guid: 4869d39903b74944aa3d8f1992581d6a, type: 3}
+  whiteStarImage: {fileID: 21300000, guid: 291043903b7a2a9f192d181641cd1aa0, type: 3}
+  OpenColor: {r: 0, g: 0.30069923, b: 1, a: 1}
+  CloseColor: {r: 0.43529412, g: 0.023529397, b: 0.36094663, a: 1}
+  ComplitedColor: {r: 1, g: 0.45490196, b: 0, a: 1}

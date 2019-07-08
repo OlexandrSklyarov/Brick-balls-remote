@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4761d972e8ad64e409021a3f30354a70, type: 3}
+  m_Name: DataBrickController
+  m_EditorClassIdentifier: 
+  quadBrick: {fileID: 1990849925982386, guid: 5f5036f385e3d478e9b32a27fdd29f45, type: 3}
+  hexagonBrick: {fileID: 1155864993641934, guid: ecea1b58e440d456896cb0fb20290dad,
+    type: 3}
+  triangleBricks:
+  - {fileID: 1805175946614160, guid: 45dd15623dcc54ed2afed15be881a4ef, type: 3}
+  - {fileID: 1245573289872072, guid: 9c8e938c6c42845fd94bcf2c2e29976b, type: 3}
+  - {fileID: 1940437844033104, guid: 7d138b41f1205438594335eb23bb2603, type: 3}
+  - {fileID: 1364977833816116, guid: 17e50111d1b50437c9619642af44f31e, type: 3}
+  blastedBrickPrefabs:
+  - {fileID: 1044128739808832, guid: 561dbeb3cb3644b7492f046325c88ec4, type: 3}
+  - {fileID: 1300902378389926, guid: e1862e3d1c5c54435a760f478ea757a3, type: 3}
+  - {fileID: 1849476608138680, guid: 214e4617d09094dc9975f3fcabe20ed7, type: 3}
+  helpBrickPrefabs:
+  - {fileID: 1301768480781710, guid: b41246f16a9a44c299c4804c5188fe76, type: 3}
+  minLives: 30
+  maxLives: 200

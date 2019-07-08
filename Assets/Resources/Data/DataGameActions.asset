@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f8ef52498c04ebd98cf527d214f57c, type: 3}
+  m_Name: DataGameActions
+  m_EditorClassIdentifier: 
+  VFX_ExplosionBomb: {fileID: 5788068112153712687, guid: bcc8efbf4a3b58a34b4a103bbcc0f1f2,
+    type: 3}
+  timeAnimExplosion: 1.15
+  bombMaxCompletedLevels: 10
+  bombStartValue: 0
+  VFX_IceForce: {fileID: 1603712762957657856, guid: 1d7bbffb4df52cd4ebb09e9d6b1e16bb,
+    type: 3}
+  iceForceTimer: 1
+  VFX_IceForceExplosion: {fileID: 3747580556298001051, guid: 5f895b21177a23c1d8da8f4cd7b24cd6,
+    type: 3}
+  iceExplosionTimer: 2
+  iceMaxCompletedLevels: 5
+  iceStartValue: 0
