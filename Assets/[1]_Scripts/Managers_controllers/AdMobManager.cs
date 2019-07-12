@@ -155,6 +155,8 @@ namespace BrakeBricks
         //подписка на события для межстраничной рекламы
         void Subscribe_Interstitial()
         {   
+            InterstitialAd_Create(); //создаём
+            
             //создаём рекламу при старте игры
             gameMng.StartGameEvent += () => 
             { 
