@@ -154,14 +154,30 @@ namespace BrakeBricks
 
         //подписка на события для межстраничной рекламы
         void Subscribe_Interstitial()
-        {           
-            InterstitialAd_Create(); //создаём 
+        {   
+            //создаём рекламу при старте игры
+            gameMng.StartGameEvent += () => 
+            { 
+                InterstitialAd_Create(); //создаём
+            };            
+
+            //при выиграше - загружаем межстраничную рекламу 
+            gameMng.GameWinEvent += () => 
+            { 
+                InterstitialAd_Load();  
+            };
 
             //при проигрыше - загружаем межстраничную рекламу 
             gameMng.GameLoseEvent += () => 
             { 
                 InterstitialAd_Load();  
-            };           
+            };        
+
+            //после завершения раунда по мультиплееру - грузим рекламу
+            GPGS.Instance.GameResultEvent += (MultiplayerResult resultGameMP) =>
+            {
+                InterstitialAd_Load();  
+            };
 
             //показывает межстраничную рекламу при загрузке
             interstitialAd.OnAdLoaded += (object sender, EventArgs args) =>
@@ -277,7 +293,7 @@ namespace BrakeBricks
 
             AdRequest request = new AdRequest.Builder().Build();
             //AdRequest request = GetTestRequest();
-            menuBanner.LoadAd(request);            
+            menuBanner.LoadAd(request);          
         }
 
 
@@ -293,7 +309,7 @@ namespace BrakeBricks
         {
             if (menuBanner == null)
             {
-                menuBanner = new BannerView(MAIN_MENU_BANNER, AdSize.Banner, AdPosition.Top);
+                menuBanner = new BannerView(MAIN_MENU_BANNER, AdSize.Banner, AdPosition.Top);                
             } 
         }           
 
