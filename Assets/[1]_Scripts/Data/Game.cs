@@ -83,7 +83,7 @@ namespace BrakeBricks
 		{
 			Demo = new DemoGame();
 			Demo.GameLaunchDate = DateTime.Now.ToString(); //сохраняем текущую дату
-			Demo.MaxLaunchDays = 5;	
+			Demo.MaxLaunchDays = 19;	
 		}
 
 
