@@ -168,10 +168,12 @@ namespace BrakeBricks
 			}		
 		#endif	
 
-			DemoGameProtected();											
+			//DemoGameProtected();											
 		}
 
 
+		//завершает приложение, если превышено количество дней (demo.MaxLaunchDays) 
+		//со дня первого запуска.
 		void DemoGameProtected()
 		{
 			var demo = CurrentGame.Demo;
