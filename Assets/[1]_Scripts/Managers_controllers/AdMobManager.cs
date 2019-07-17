@@ -166,21 +166,24 @@ namespace BrakeBricks
             //при выиграше - загружаем межстраничную рекламу 
             gameMng.GameWinEvent += () => 
             { 
-                InterstitialAd_Load();  
+                ShowInterstitial();
             };
 
             //при проигрыше - загружаем межстраничную рекламу 
             gameMng.GameLoseEvent += () => 
             { 
-                InterstitialAd_Load();  
+                ShowInterstitial(); 
             };        
 
+            /* 
             //после завершения раунда по мультиплееру - грузим рекламу
             GPGS.Instance.GameResultEvent += (MultiplayerResult resultGameMP) =>
             {
-                InterstitialAd_Load();  
+                ShowInterstitial(); 
             };
-
+            */
+            
+            /* 
             //показывает межстраничную рекламу при загрузке
             interstitialAd.OnAdLoaded += (object sender, EventArgs args) =>
             {
@@ -189,6 +192,7 @@ namespace BrakeBricks
                     interstitialAd.Show();  
                 } 
             };
+            */
         }
 
 
@@ -319,25 +323,44 @@ namespace BrakeBricks
     #endregion
 
 
-    #region Interstitial Adverstising     
-
-        //полноэкранная реклама
-        void InterstitialAd_Load()
-        {
-            InterstitialAd_Create();
-            
-            AdRequest request = new AdRequest.Builder().Build();
-            //AdRequest request = GetTestRequest();
-            interstitialAd.LoadAd(request);            
-        }   
-
+    #region Interstitial Adverstising   
 
         //создает межстраничную рекламу
         void InterstitialAd_Create()
         {
-            if (interstitialAd == null)
+            if (interstitialAd != null)
             {
-                interstitialAd = new InterstitialAd(LOSE_GAME_ITERSTITIAL);
+                interstitialAd.Destroy();
+            }
+
+            interstitialAd = new InterstitialAd(LOSE_GAME_ITERSTITIAL);     
+
+            InterstitialAd_Load();         
+        }
+
+
+        //загружает полноэкранную рекламу
+        void InterstitialAd_Load()
+        {
+            AdRequest request = new AdRequest.Builder().Build();
+            //AdRequest request = GetTestRequest();
+            interstitialAd.LoadAd(request);            
+        } 
+
+
+        //показывает межстраничную рекламу
+        void ShowInterstitial()
+        {
+            if (gameMng.State == GameState.GAME)
+                return;
+
+            if (interstitialAd.IsLoaded())
+            {
+                interstitialAd.Show();
+            }
+            else
+            {
+                MonoBehaviour.print("Interstitial is not ready yet");
             }
         }
 
