@@ -235,15 +235,33 @@ namespace BrakeBricks
 		void InitGPGS()
 		{
 			//находим NetworkManager 
-			gpgs = GameObject.FindObjectOfType<GPGS>();
+			gpgs = GPGS.Instance;
+			gpgs.LoginUpdateEvent += LoadGameCloud; // проверяет сохранения в облаке
 			gpgs.AllParticipantsConfirmedEvent += StartMultiplayer;
 			gpgs.PlayByInvitationEvent += RegisteringInviteFriends; //регестрируем приглашение в игру
 			gpgs.DisconectEvent += DisconectGame;
-			gpgs.GameResultEvent += MultiplayerGameCompleted;
-			//событие от принимающего игру 
-			gpgs.AcceptFromInboxEvent += () => { SetGameMode(GameMode.MULTIPLAYER); }; 
+			gpgs.GameResultEvent += MultiplayerGameCompleted;			
+			gpgs.AcceptFromInboxEvent += () => { SetGameMode(GameMode.MULTIPLAYER); }; //событие от принимающего игру 
 
 			MpSetMode(MpGameMode.QUIK_GAME);
+		}
+
+
+		//загружает сохранения из облака
+		void LoadGameCloud()
+		{
+			if (gpgs.IsAuthenticated)
+			{
+				//считываем данные сохранений
+				gpgs.ReadSaveData(GPGS.DEFAULT_SAVE_NAME, (status, data) =>
+				{
+					if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success && data.Length > 0)
+					{
+						SaveManager.LoadGameFromBinaryArray(data);
+						SaveManager.Save();
+					}
+				});
+			}
 		}
 		
 
@@ -912,6 +930,7 @@ namespace BrakeBricks
 		void QuitGame()
 		{
 			SaveGame();
+			SaveCloudGame();
 			if (QuitGameEvent != null) QuitGameEvent();
 			Application.Quit();
 		}
@@ -919,7 +938,17 @@ namespace BrakeBricks
 
 		void SaveGame()
 		{							
-			SaveManager.Save();			
+			SaveManager.Save();					
+		}
+
+
+		//сохранение в облаке
+		void SaveCloudGame()
+		{
+			if (gpgs.IsAuthenticated)
+			{
+				gpgs.WriteSaveData(SaveManager.GetCurrentGameToByteArray());
+			}
 		}
 
 		

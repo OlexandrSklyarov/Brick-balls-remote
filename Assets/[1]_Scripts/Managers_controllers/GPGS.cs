@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
 using GooglePlayGames.BasicApi.Multiplayer;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.Analytics;
@@ -20,7 +21,7 @@ namespace BrakeBricks
 		public static GPGS Instance;
 
 		public MultiplayerInfo MultiplayerInfo {get; private set;}	//настройки игры по мультиплееру
-		public bool IsLogin {get { return Social.localUser.authenticated; }}
+		public bool IsAuthenticated {get { return Social.localUser.authenticated; }} //авторизировался ли пользователь
 		public MultiplayerState State {get; private set;}	
 		
 		DataMultiplayerGame dataMultiplayer;  //данные для игры по мультиплееру	
@@ -30,7 +31,7 @@ namespace BrakeBricks
 		bool isPlayerConfirmGame; //подтверждение игрока
 		bool isOpponentConfirmGame; // /подтверждение соперника			
 		
-		float currentTime;
+		float currentMultiplayerGameTime; //текущее время оаунда в мультиплер
 
 		int myIndexLevel = 0; //индекс уровня в мультиплеере (номер шаблона)
 		int oppIndexLevel = 0; //такой же от соперника
@@ -44,7 +45,14 @@ namespace BrakeBricks
 		const string START_GAME = "Start";
 		const string TIME_OUT = "TimeOut";		
 		const string SCORE = "Score";
-		const string WIN = "WIN";			
+		const string WIN = "WIN";
+
+		//save cloud variable
+		public const string DEFAULT_SAVE_NAME = "Save";
+    	private static ISavedGameClient savedGameClient;
+    	private static ISavedGameMetadata currentMetadata;
+    	private static DateTime startDateTime;
+    				
 		
 	#endregion
 
@@ -91,32 +99,34 @@ namespace BrakeBricks
 		//инициализация сервисов google
 		void InitializeServices()
 		{
-			PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().Build();
+			PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
 
 			PlayGamesPlatform.InitializeInstance(config);
 			PlayGamesPlatform.DebugLogEnabled = true;
-			PlayGamesPlatform.Activate();											
+			PlayGamesPlatform.Activate();	
+
+			//инициализируем данные для облачного сохранение
+			InitializeSaveCloudDate();										
 		}	
 
 
 		void Login()
 		{
 			//если уже вошел - пропускаем
-			if (IsLogin)	
+			if (IsAuthenticated)	
 				return;
 				
 			Social.localUser.Authenticate((bool success) => 
 			{
 				if (success) 
 				{
+					SetSavedGameClient();
 					LoginUpdateEvent?.Invoke();
 					ManagerUI.ShowMsg("Login successful");
-					Debug.Log("Login ON");
 				}
 				else
 				{
 					ManagerUI.ShowMsg("Login failed :(");
-					Debug.Log("Login failure :(");
 				}
 			});			
 		}
@@ -139,7 +149,7 @@ namespace BrakeBricks
 			
 			InputManager.Instance.FriendsPanel_PressButtonLoginEvent += () => 
 			{
-				if (!IsLogin) 
+				if (!IsAuthenticated) 
 					Login();
 				else
 					SingOut();
@@ -219,7 +229,7 @@ namespace BrakeBricks
 		void AuthenticateMP()
 		{			
 			//если уже вошел - создаём игру
-			if (IsLogin)	
+			if (IsAuthenticated)	
 			{			
 				CreateGame();
 			}
@@ -362,9 +372,9 @@ namespace BrakeBricks
 				break;
 
 				case MultiplayerState.PLAY:
-					if (Time.time >= currentTime + 1f) //проверка раз в секунду 
+					if (Time.time >= currentMultiplayerGameTime + 1f) //проверка раз в секунду 
 					{
-						currentTime = Time.time;				
+						currentMultiplayerGameTime = Time.time;				
 
 						if (MultiplayerInfo.timer > 0)
 						{
@@ -437,7 +447,7 @@ namespace BrakeBricks
 			if (State != MultiplayerState.READY)
 				return;
 														
-			currentTime = Time.time;
+			currentMultiplayerGameTime = Time.time;
 			SetState(MultiplayerState.PLAY);	
 
 			//если игра с приглашённым другом - то рассылаем событие
@@ -797,6 +807,118 @@ namespace BrakeBricks
 			}
         }
         
+
+	#endregion
+
+
+	#region Save Cloud
+
+		//запоминает дату запуска игры (время)
+		void InitializeSaveCloudDate()
+		{
+			startDateTime = DateTime.Now;
+		}
+
+
+		//устанавливаем занчение savedGameClient
+		void SetSavedGameClient()
+		{
+			savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+		}
+
+
+		//открывает данные сохранения
+		void OpenSaveData(string fileName, Action<SavedGameRequestStatus, ISavedGameMetadata> OnDataOpen)
+		{
+			if (!IsAuthenticated)
+			{
+				OnDataOpen(SavedGameRequestStatus.AuthenticationError, null);
+				return;
+			}
+
+			savedGameClient.OpenWithAutomaticConflictResolution(fileName,
+																DataSource.ReadCacheOrNetwork,
+																ConflictResolutionStrategy.UseLongestPlaytime,
+																OnDataOpen);
+		}
+
+
+		//считывает данные сохранения
+		public void ReadSaveData(string fileName, Action<SavedGameRequestStatus, byte[]> OnDataRead)
+		{
+			if (!IsAuthenticated)
+			{
+				OnDataRead(SavedGameRequestStatus.AuthenticationError, null);
+				return;
+			}
+
+			OpenSaveData(fileName, (status, metadata) => 
+			{
+				if (status == SavedGameRequestStatus.Success)
+				{
+					savedGameClient.ReadBinaryData(metadata, OnDataRead);
+					currentMetadata = metadata;
+				}
+			});
+		}
+
+
+		//записывает данные сохранения
+		public void WriteSaveData(byte[] data)
+		{
+			if (!IsAuthenticated || data == null || data.Length == 0)
+				return;
+
+			TimeSpan currentSpan = DateTime.Now - startDateTime;
+
+			Action OnDataWrite = () =>
+			{
+				TimeSpan totalPlayTime = currentMetadata.TotalTimePlayed + currentSpan;
+
+				SavedGameMetadataUpdate.Builder builder = new SavedGameMetadataUpdate.Builder()
+					.WithUpdatedDescription("Saved game at " + DateTime.Now)
+					.WithUpdatedPlayedTime(totalPlayTime);
+
+				SavedGameMetadataUpdate updatedMetadata = builder.Build();
+
+				savedGameClient.CommitUpdate(currentMetadata, 
+											updatedMetadata, 
+											data, 
+											(status, metadata) => currentMetadata = metadata);
+
+				startDateTime = DateTime.Now;
+			};
+
+			if (currentMetadata == null)
+			{
+				OpenSaveData(DEFAULT_SAVE_NAME, (status, metadata) => 
+				{
+					Debug.Log("Cloud data write status: " + status.ToString());
+
+					if (status == SavedGameRequestStatus.Success)
+					{
+						currentMetadata = metadata;
+						OnDataWrite();
+					}
+				});
+
+				return;
+			}
+
+			OnDataWrite();
+		}
+
+
+		//возвращает список сохренений
+		public void GetSavesList(Action<SavedGameRequestStatus, List<ISavedGameMetadata>> onReceiveList)
+		{
+			if (!IsAuthenticated)
+			{
+				onReceiveList(SavedGameRequestStatus.AuthenticationError, null);
+				return;
+			}
+			savedGameClient.FetchAllSavedGames(DataSource.ReadNetworkOnly, onReceiveList);
+		}
 
 	#endregion
 

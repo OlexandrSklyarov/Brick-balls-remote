@@ -1259,7 +1259,7 @@ namespace BrakeBricks
 
 			var textLoginBtn = friaendsPanel.transform.Find("LOGIN_button/Text").GetComponent<Text>();
 
-			if (GPGS.Instance.IsLogin)
+			if (GPGS.Instance.IsAuthenticated)
 			{
 				fpRealButtons.SetActive(true);
 				fpStubButtons.SetActive(false);

@@ -42,7 +42,40 @@ namespace BrakeBricks
 			
 			return false;			
 		}
-		
+
+
+		#region Cloud Save/Load
+				
+
+			//Возвращает данные игры в массиве байт
+			public static byte[] GetCurrentGameToByteArray()
+			{
+				Save save = new Save();
+				save.SaveGame(GameManager.CurrentGame);
+
+				BinaryFormatter bf = new BinaryFormatter();
+				using (var ms = new MemoryStream())
+				{
+					bf.Serialize(ms, save);
+					return ms.ToArray();
+				}
+			}
+
+
+			// Convert a byte array to an Object
+			public static void LoadGameFromBinaryArray(byte[] arrBytes)
+			{
+				using (var memStream = new MemoryStream())
+				{
+					var binForm = new BinaryFormatter();
+					memStream.Write(arrBytes, 0, arrBytes.Length);
+					memStream.Seek(0, SeekOrigin.Begin);
+					Save save = (Save)binForm.Deserialize(memStream);					
+					GameManager.CurrentGame.LoadGame(save);						
+				}
+			}
+
+		#endregion		
 	}
 
 
