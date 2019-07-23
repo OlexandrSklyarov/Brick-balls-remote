@@ -1,5 +1,5 @@
-lastUpgrade=00950
-proj.pluginVersion=0.9.50
+lastUpgrade=00964
+proj.pluginVersion=0.9.64
 proj.AppId=358845594963
 and.BundleId=com.SomeCompany2.BreakBricksGame
 proj.classDir=Assets
