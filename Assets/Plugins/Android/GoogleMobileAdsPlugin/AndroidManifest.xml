@@ -11,11 +11,10 @@ required for displaying ads.
   <uses-sdk android:minSdkVersion="14"
       android:targetSdkVersion="19" />
   <application>
-    <provider
-      android:name="com.yasirkula.unity.UnitySSContentProvider"
-      android:value="ca-app-pub-7761980327324016~2037359147"
-      android:authorities="com.SomeCompany2.BreakBricksGame"
-      android:exported="false"
-      android:grantUriPermissions="true" />
+    <uses-library android:required="false" android:name="org.apache.http.legacy"/>
+    <!-- Your AdMob App ID will look similar to this sample ID: ca-app-pub-3940256099942544~3347511713 -->
+    <meta-data
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+    android:value="ca-app-pub-7761980327324016~2037359147"/>
   </application>
 </manifest>
