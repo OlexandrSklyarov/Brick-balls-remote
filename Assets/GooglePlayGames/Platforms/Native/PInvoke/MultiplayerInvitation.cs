@@ -52,11 +52,6 @@ namespace GooglePlayGames.Native.PInvoke
             return C.MultiplayerInvitation_Variant(SelfPtr());
         }
 
-        internal ulong CreationTime()
-        {
-            return C.MultiplayerInvitation_CreationTime(SelfPtr());
-        }
-
         internal Types.MultiplayerInvitationType Type()
         {
             return C.MultiplayerInvitation_Type(SelfPtr());
@@ -103,8 +98,6 @@ namespace GooglePlayGames.Native.PInvoke
             var type = ToInvType(Type());
             var invitationId = Id();
             int variant = (int)Variant();
-            long creationTime = (long)CreationTime();
-            
             Participant inviter;
 
             using (var nativeInviter = Inviter())
@@ -112,7 +105,7 @@ namespace GooglePlayGames.Native.PInvoke
                 inviter = nativeInviter == null ? null : nativeInviter.AsParticipant();
             }
 
-            return new Invitation(type, invitationId, inviter, variant, creationTime);
+            return new Invitation(type, invitationId, inviter, variant);
         }
 
         internal static MultiplayerInvitation FromPointer(IntPtr selfPointer)
