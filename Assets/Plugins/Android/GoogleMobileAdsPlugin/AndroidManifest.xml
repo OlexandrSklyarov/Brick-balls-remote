@@ -13,6 +13,7 @@ required for displaying ads.
   <application>
     <provider
       android:name="com.yasirkula.unity.UnitySSContentProvider"
+      android:value="ca-app-pub-7761980327324016~2037359147"
       android:authorities="com.SomeCompany2.BreakBricksGame"
       android:exported="false"
       android:grantUriPermissions="true" />
