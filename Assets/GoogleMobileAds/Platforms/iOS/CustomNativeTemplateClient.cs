@@ -73,7 +73,18 @@ namespace GoogleMobileAds.iOS
                     Externs.GADUNativeCustomTemplateAdNumberOfAvailableAssetKeys(
                             this.CustomNativeAdPtr);
 
-            return Utils.PtrArrayToManagedList(unmanagedAssetArray, numOfAssets);
+            IntPtr[] intPtrArray = new IntPtr[numOfAssets];
+            string[] managedAssetArray = new string[numOfAssets];
+            Marshal.Copy(unmanagedAssetArray, intPtrArray, 0, numOfAssets);
+
+            for (int i = 0; i < numOfAssets; i++)
+            {
+                managedAssetArray[i] = Marshal.PtrToStringAuto(intPtrArray[i]);
+                Marshal.FreeHGlobal(intPtrArray[i]);
+            }
+
+            Marshal.FreeHGlobal(unmanagedAssetArray);
+            return new List<string>(managedAssetArray);
         }
 
         public string GetTemplateId()

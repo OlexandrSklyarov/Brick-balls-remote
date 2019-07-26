@@ -110,7 +110,7 @@ namespace GoogleMobileAds.Android
 
         void onRewardedAdFailedToShow(string errorReason)
         {
-            if (this.OnAdFailedToShow != null)
+            if (this.OnAdFailedToLoad != null)
             {
                 AdErrorEventArgs args = new AdErrorEventArgs()
                 {

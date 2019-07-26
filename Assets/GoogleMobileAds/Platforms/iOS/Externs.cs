@@ -28,26 +28,6 @@ namespace GoogleMobileAds.iOS
         internal static extern void GADUInitialize(string key);
 
         [DllImport("__Internal")]
-        internal static extern void GADUInitializeWithCallback(
-            IntPtr mobileAdsClient, MobileAdsClient.GADUInitializationCompleteCallback callback);
-
-        [DllImport("__Internal")]
-        internal static extern IntPtr GADUGetInitDescription(IntPtr status, string className);
-
-        [DllImport("__Internal")]
-        internal static extern int GADUGetInitLatency(IntPtr status, string className);
-
-        [DllImport("__Internal")]
-        internal static extern int GADUGetInitState(IntPtr status, string className);
-
-        [DllImport("__Internal")]
-        internal static extern IntPtr GADUGetInitAdapterClasses(IntPtr status);
-
-        [DllImport("__Internal")]
-        internal static extern int GADUGetInitNumberOfAdapterClasses(IntPtr status);
-
-
-        [DllImport("__Internal")]
         internal static extern void GADUSetApplicationVolume(float volume);
 
         [DllImport("__Internal")]
@@ -55,9 +35,6 @@ namespace GoogleMobileAds.iOS
 
         [DllImport("__Internal")]
         internal static extern void GADUSetiOSAppPauseOnBackground(bool pause);
-
-        [DllImport("__Internal")]
-        internal static extern float GADUDeviceScale();
 
         [DllImport("__Internal")]
         internal static extern IntPtr GADUCreateRequest();
@@ -126,6 +103,7 @@ namespace GoogleMobileAds.iOS
         [DllImport("__Internal")]
         internal static extern IntPtr GADUCreateSmartBannerViewWithCustomPosition(
             IntPtr bannerClient, string adUnitId, int x, int y);
+
         [DllImport("__Internal")]
         internal static extern void GADUSetBannerCallbacks(
             IntPtr bannerView,
@@ -255,7 +233,7 @@ namespace GoogleMobileAds.iOS
                     adReceivedCallback,
             RewardedAdClient.GADURewardedAdDidFailToReceiveAdWithErrorCallback
                     adFailedToLoadCallback,
-            RewardedAdClient.GADURewardedAdDidFailToShowAdWithErrorCallback
+            RewardedAdClient.GADURewardedAdDidFailToReceiveAdWithErrorCallback
                     adFailedToShowCallback,
             RewardedAdClient.GADURewardedAdDidOpenCallback didOpenCallback,
             RewardedAdClient.GADURewardedAdDidCloseCallback didCloseCallback,
