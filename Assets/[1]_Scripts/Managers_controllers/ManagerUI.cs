@@ -1096,6 +1096,13 @@ namespace BrakeBricks
 
 		void ProgressBarStatus(bool _isActive)
 		{
+			//если не вошли в сервисы, прячем прогрессбар и выходим из метода
+			if (!GPGS.Instance.IsAuthenticated)
+			{
+				HideProgressBar();
+				return;
+			}
+
 			if (_isActive)
 			{
 				ShowProgressBar();
