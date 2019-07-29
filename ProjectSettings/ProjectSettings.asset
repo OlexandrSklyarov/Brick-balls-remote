@@ -151,7 +151,11 @@ PlayerSettings:
     Android: com.SomeCompany2.BreakBricksGame
     Standalone: com.Company.ProductName
   buildNumber: {}
+<<<<<<< HEAD
   AndroidBundleVersionCode: 29
+=======
+  AndroidBundleVersionCode: 27
+>>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
   AndroidMinSdkVersion: 17
   AndroidTargetSdkVersion: 28
   AndroidPreferredInstallLocation: 1

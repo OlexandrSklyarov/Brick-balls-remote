@@ -24,7 +24,11 @@
 
         <!-- Keep track of which plugin is being used -->
         <meta-data android:name="com.google.android.gms.games.unityVersion"
+<<<<<<< HEAD
             android:value="\u0030.9.53" />
+=======
+            android:value="\u0030.9.62" />
+>>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
 
         <activity android:name="com.google.games.bridge.NativeBridgeActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />

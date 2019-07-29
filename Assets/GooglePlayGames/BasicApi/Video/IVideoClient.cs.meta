@@ -1,8 +1,12 @@
 fileFormatVersion: 2
-guid: 35f4c590f605745519c321841317fae1
+guid: 35f4c590f605745519c321841317fae2
 labels:
 - gvh
+<<<<<<< HEAD:Assets/GooglePlayGames/BasicApi/Video/IVideoClient.cs.meta
 - gvh_version-0.9.53
+=======
+- gvh_version-0.9.62
+>>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886:Assets/GooglePlayGames/BasicApi/Video/IVideoClient.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

@@ -363,6 +363,13 @@ namespace Google.Developers
                 {
                     return (T)(object)AndroidJNI.CallShortMethod(raw, method, jArgs);
                 }
+<<<<<<< HEAD
+=======
+                else if (t == typeof(IntPtr))
+                {
+                    return (T)(object)AndroidJNI.CallObjectMethod(raw, method, jArgs);
+                }
+>>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
                 else
                 {
                     return InvokeObjectCall<T>(name, sig, args);
@@ -428,6 +435,14 @@ namespace Google.Developers
                     return (T)(object)AndroidJNI.CallStaticShortMethod(
                         rawClass, method, jArgs);
                 }
+<<<<<<< HEAD
+=======
+                else if (t == typeof(IntPtr))
+                {
+                    return (T)(object)AndroidJNI.CallStaticObjectMethod(
+                        rawClass, method, jArgs);
+                }
+>>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
                 else
                 {
                     return StaticInvokeObjectCall<T>(type, name, sig, args);
