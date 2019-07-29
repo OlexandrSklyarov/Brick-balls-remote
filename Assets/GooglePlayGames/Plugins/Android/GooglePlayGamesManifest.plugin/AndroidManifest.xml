@@ -12,7 +12,11 @@
 
     <application>
 
-     
+        <provider
+        android:name="com.yasirkula.unity.UnitySSContentProvider"
+        android:authorities="blabeeyProductTwo"
+        android:exported="false"
+        android:grantUriPermissions="true" />
 
         <!-- The space in these forces it to be interpreted as a string vs. int -->
         <meta-data android:name="com.google.android.gms.games.APP_ID"

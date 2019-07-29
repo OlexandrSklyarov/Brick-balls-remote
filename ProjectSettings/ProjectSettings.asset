@@ -151,9 +151,9 @@ PlayerSettings:
     Android: com.SomeCompany2.BreakBricksGame
     Standalone: com.Company.ProductName
   buildNumber: {}
-  AndroidBundleVersionCode: 28
+  AndroidBundleVersionCode: 29
   AndroidMinSdkVersion: 17
-  AndroidTargetSdkVersion: 28
+  AndroidTargetSdkVersion: 26
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -611,7 +611,7 @@ PlayerSettings:
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   apiCompatibilityLevelPerPlatform:
-    Android: 3
+    Android: 6
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_2D
