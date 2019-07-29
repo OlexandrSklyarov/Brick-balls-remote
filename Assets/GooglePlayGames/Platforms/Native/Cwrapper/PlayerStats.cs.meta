@@ -2,11 +2,7 @@ fileFormatVersion: 2
 guid: ad96a88355cd7411dbe6b3835431d64e
 labels:
 - gvh
-<<<<<<< HEAD
 - gvh_version-0.9.53
-=======
-- gvh_version-0.9.62
->>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

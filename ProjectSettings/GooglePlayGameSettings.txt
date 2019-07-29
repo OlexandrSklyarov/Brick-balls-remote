@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 lastUpgrade=00953
 proj.pluginVersion=0.9.53
 =======
-lastUpgrade=00962
-proj.pluginVersion=0.9.62
->>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
 proj.AppId=358845594963
 and.BundleId=com.SomeCompany2.BreakBricksGame
 proj.classDir=Assets

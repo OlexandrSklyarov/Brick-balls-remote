@@ -14,7 +14,7 @@
 //    limitations under the License.
 // </copyright>
 
-#if UNITY_ANDROID
+#if (UNITY_ANDROID || (UNITY_IPHONE && !NO_GPGS))
 
 namespace GooglePlayGames.Native
 {
@@ -41,7 +41,8 @@ namespace GooglePlayGames.Native
         private enum AuthState
         {
             Unauthenticated,
-            Authenticated
+            Authenticated,
+            SilentPending
         }
 
         private readonly object GameServicesLock = new object();
@@ -60,8 +61,10 @@ namespace GooglePlayGames.Native
         private volatile Player mUser = null;
         private volatile List<Player> mFriends = null;
         private volatile Action<bool, string> mPendingAuthCallbacks;
+        private volatile Action<bool, string> mSilentAuthCallbacks;
         private volatile AuthState mAuthState = AuthState.Unauthenticated;
         private volatile uint mAuthGeneration = 0;
+        private volatile bool mSilentAuthFailed = false;
         private volatile bool friendsLoading = false;
 
         internal NativeClient(PlayGamesClientConfiguration configuration,
@@ -92,6 +95,27 @@ namespace GooglePlayGames.Native
                     InvokeCallbackOnGameThread(callback, true, null);
                     return;
                 }
+
+                // If this is silent auth, and silent auth already failed, there's no point in
+                // trying again.
+                if (mSilentAuthFailed && silent)
+                {
+                    InvokeCallbackOnGameThread(callback, false, "silent auth failed");
+                    return;
+                }
+
+                // Otherwise, hold the callback for invocation.
+                if (callback != null)
+                {
+                    if (silent)
+                    {
+                        mSilentAuthCallbacks += callback;
+                    }
+                    else
+                    {
+                        mPendingAuthCallbacks += callback;
+                    }
+                }
             }
 
             // reset friends loading flag
@@ -99,26 +123,24 @@ namespace GooglePlayGames.Native
 
             InitializeTokenClient();
 
-            Debug.Log("Starting Auth with token client.");
-            mTokenClient.FetchTokens(silent, (int result) => {
-                bool succeed = result == 0 /* CommonStatusCodes.SUCCEED */;
-                InitializeGameServices();
-                if (succeed) {
-                    if (callback != null) {
-                      mPendingAuthCallbacks += callback;
-                    }
-                    GameServices().StartAuthorizationUI();
-                } else {
-                    Action<bool, string> localCallback = callback;
-                    if (result == 16 /* CommonStatusCodes.CANCELED */) {
-                        InvokeCallbackOnGameThread(localCallback, false, "Authentication canceled");
-                    } else if (result == 8 /* CommonStatusCodes.DEVELOPER_ERROR */) {
-                        InvokeCallbackOnGameThread(localCallback, false, "Authentication failed - developer error");
+            // If we need to use the token client to authenticate, do that before initializing the GPG library.
+            if (mTokenClient.NeedsToRun()) {
+                Debug.Log("Starting Auth with token client.");
+                mTokenClient.FetchTokens((int result) => {
+                    InitializeGameServices();
+                    if (result == 0) {
+                        GameServices().StartAuthorizationUI();
                     } else {
-                        InvokeCallbackOnGameThread(localCallback, false, "Authentication failed");
+                        HandleAuthTransition(Types.AuthOperation.SIGN_IN, (Status.AuthStatus)result);
                     }
+                });
+            } else {
+                // If game services are uninitialized, creating them will start a silent auth attempt.
+                InitializeGameServices();
+                if (!silent) {
+                    GameServices().StartAuthorizationUI();
                 }
-            });
+            }
         }
 
         private static Action<T> AsOnGameThreadCallback<T>(Action<T> callback)
@@ -203,6 +225,7 @@ namespace GooglePlayGames.Native
                         }
 
                         Debug.Log("Building GPG services, implicitly attempts silent auth");
+                        mAuthState = AuthState.SilentPending;
                         mServices = builder.Build(config);
                         mEventsClient = new NativeEventClient(new EventManager(mServices));
                         mVideoClient = new NativeVideoClient(new VideoManager(mServices));
@@ -226,6 +249,7 @@ namespace GooglePlayGames.Native
                                 "See PlayGamesClientConfiguration.Builder.EnableSavedGames.");
                         }
 
+                        mAuthState = AuthState.SilentPending;
                         InitializeTokenClient();
                     }
                 }
@@ -249,10 +273,6 @@ namespace GooglePlayGames.Native
             mTokenClient.SetRequestEmail(mConfiguration.IsRequestingEmail);
             mTokenClient.SetRequestIdToken(mConfiguration.IsRequestingIdToken);
             mTokenClient.SetHidePopups(mConfiguration.IsHidingPopups);
-            mTokenClient.AddOauthScopes("https://www.googleapis.com/auth/games_lite");
-            if (mConfiguration.EnableSavedGames) {
-                mTokenClient.AddOauthScopes("https://www.googleapis.com/auth/drive.appdata");
-            }
             mTokenClient.AddOauthScopes(scopes);
             mTokenClient.SetAccountName(mConfiguration.AccountName);
         }
@@ -531,28 +551,61 @@ namespace GooglePlayGames.Native
                 switch (operation)
                 {
                     case Types.AuthOperation.SIGN_IN:
-                        if (status == Status.AuthStatus.VALID) {
+                        if (status == Status.AuthStatus.VALID)
+                        {
+                            // If sign-in succeeded, treat any silent auth callbacks the same way
+                            // we would treat loud ones.
+                            if (mSilentAuthCallbacks != null)
+                            {
+                                mPendingAuthCallbacks += mSilentAuthCallbacks;
+                                mSilentAuthCallbacks = null;
+                            }
+
                             uint currentAuthGeneration = mAuthGeneration;
                             mServices.AchievementManager().FetchAll(
                                 results => PopulateAchievements(currentAuthGeneration, results));
                             mServices.PlayerManager().FetchSelf(
                                 results => PopulateUser(currentAuthGeneration, results));
                         }
-                        else {
+                        else
+                        {
                             // Auth failed
-                            // The initial silent auth failed - take note of that and
-                            // notify any pending silent-auth callbacks. If there are
-                            // additional non-silent auth callbacks pending, attempt to auth
-                            // by popping the Auth UI.
-                            mAuthState = AuthState.Unauthenticated;
-                            GooglePlayGames.OurUtils.Logger.d(
-                                    "AuthState == " + mAuthState +
-                                      " calling auth callbacks with failure");
+                            if (mAuthState == AuthState.SilentPending)
+                            {
+                                // The initial silent auth failed - take note of that and
+                                // notify any pending silent-auth callbacks. If there are
+                                // additional non-silent auth callbacks pending, attempt to auth
+                                // by popping the Auth UI.
+                                mSilentAuthFailed = true;
+                                mAuthState = AuthState.Unauthenticated;
+                                var silentCallbacks = mSilentAuthCallbacks;
+                                mSilentAuthCallbacks = null;
+                                GooglePlayGames.OurUtils.Logger.d(
+                                    "Invoking callbacks, AuthState changed " +
+                                    "from silentPending to Unauthenticated.");
 
-                            // Noisy sign-in failed - report failure.
-                            Action<bool, string> localCallbacks = mPendingAuthCallbacks;
-                            mPendingAuthCallbacks = null;
-                            InvokeCallbackOnGameThread(localCallbacks, false, "Authentication failed");
+                                InvokeCallbackOnGameThread(silentCallbacks, false, "silent auth failed");
+                                if (mPendingAuthCallbacks != null)
+                                {
+                                    GooglePlayGames.OurUtils.Logger.d(
+                                        "there are pending auth callbacks - starting AuthUI");
+                                    GameServices().StartAuthorizationUI();
+                                }
+                            }
+                            else
+                            {
+                                GooglePlayGames.OurUtils.Logger.d(
+                                        "AuthState == " + mAuthState +
+                                          " calling auth callbacks with failure");
+
+                                // make sure we are not paused
+                                UnpauseUnityPlayer();
+
+                                // Noisy sign-in failed - report failure.
+                                Action<bool, string> localCallbacks = mPendingAuthCallbacks;
+                                mPendingAuthCallbacks = null;
+                                InvokeCallbackOnGameThread(localCallbacks, false, "Authentication failed");
+                            }
                         }
                         break;
                     case Types.AuthOperation.SIGN_OUT:
@@ -564,6 +617,16 @@ namespace GooglePlayGames.Native
                 }
             }
         }
+
+#if UNITY_IOS || UNITY_IPHONE
+    [System.Runtime.InteropServices.DllImport("__Internal")]
+    internal static extern void UnpauseUnityPlayer();
+#else
+    private void UnpauseUnityPlayer()
+    {
+        // don't do anything.
+    }
+#endif
 
         private void ToUnauthenticated()
         {

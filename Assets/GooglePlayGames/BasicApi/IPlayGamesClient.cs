@@ -14,11 +14,7 @@
 //    limitations under the License.
 // </copyright>
 
-<<<<<<< HEAD
 #if (UNITY_ANDROID || (UNITY_IPHONE && !NO_GPGS))
-=======
-#if UNITY_ANDROID
->>>>>>> b6f0ed75f19c06dfcf102505bd85f8557eaa8886
 
 namespace GooglePlayGames.BasicApi
 {

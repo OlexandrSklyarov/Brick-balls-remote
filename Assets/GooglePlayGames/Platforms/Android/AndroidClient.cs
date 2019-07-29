@@ -15,14 +15,13 @@
 // </copyright>
 
 #if UNITY_ANDROID
-namespace GooglePlayGames.Native.Android
+namespace GooglePlayGames.Android
 {
     using System;
     using Com.Google.Android.Gms.Common.Api;
     using Com.Google.Android.Gms.Games.Stats;
     using Com.Google.Android.Gms.Games;
     using UnityEngine;
-    using GooglePlayGames.Android;
     using GooglePlayGames.BasicApi;
     using GooglePlayGames.OurUtils;
     using C = GooglePlayGames.Native.Cwrapper.InternalHooks;
@@ -66,9 +65,9 @@ namespace GooglePlayGames.Native.Android
                                 }
                             });
                     });
-                if (clientConfig.IsHidingPopups) 
+                if (clientConfig.IsHidingPopups)
                 {
-                    config.SetOptionalViewForPopups(AndroidTokenClient.CreateInvisibleView().GetRawObject());
+                    config.SetOptionalViewForPopups(CreateHiddenView(activity.GetRawObject()));
                 }
             }
             return config;
@@ -88,6 +87,20 @@ namespace GooglePlayGames.Native.Android
 
             return tokenClient;
         }
+
+        private IntPtr CreateHiddenView(IntPtr activity)
+        {
+            // Keep it static so it will always be referenced.
+            if (invisible == null || invisible.GetRawObject() == IntPtr.Zero) {
+              invisible = new AndroidJavaObject("android.view.View", activity);
+              invisible.Call("setVisibility",/*View.INVISIBLE*/(int)0x00000004);
+              invisible.Call("setClickable", false);
+            }
+
+            return invisible.GetRawObject();
+            
+        }
+
 
         // Must be launched from the game thread (otherwise the classloader cannot locate the unity
         // java classes we require).
